@@ -34,7 +34,7 @@ export  class  LoginView extends Component {
         super(props);
         this.state = {
             user: 'darwin.c5@gmail.com',
-            password: '123456',
+            password: '',
             modalVisible: false,
             isLoading: true,
             mesg: 'nada',
