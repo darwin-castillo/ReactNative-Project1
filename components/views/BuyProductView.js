@@ -1,5 +1,6 @@
 import React,{Component} from 'react';
 import {
+    AppRegistry,
     StyleSheet,
     View,
     Text,
@@ -15,6 +16,10 @@ import {
     AsyncStorage,
     Image,
     ScrollView,
+    NavigatorIOS,
+    Linking,
+    TouchableOpacity,
+
 } from 'react-native';
 import Tabs from 'react-native-tabs';
 
@@ -23,7 +28,9 @@ import {StackNavigator,NavigationActions } from 'react-navigation';
 import {navigationView} from "../common/drawer";
 import Icon from 'react-native-fa-icons';
 import {TabsMenu} from "../common/tabs";
+import {} from 'react-native-camera'
 import PopoverTooltip from "react-native-popover-tooltip";
+import QRCodeScanner from "react-native-qrcode-scanner";
 //import { BarCodeScanner, Permissions } from "expo";
 
 var { height } = Dimensions.get('window');
@@ -34,7 +41,9 @@ export class  BuyProductView extends Component{
 
 
 
-
+    onSuccess(e) {
+        Linking.openURL(e.data).catch(err => console.error('An error occured', err));
+    }
     resetNavigation(targetRoute) {
         const resetAction = NavigationActions.reset({
             index: 0,
@@ -92,21 +101,26 @@ export class  BuyProductView extends Component{
                 </ImageBackground>
 
                 <View style={[styles.box, styles.box2]}>
-                    <Text style={{color: 'white', fontSize: 20}}>
-                      Comprar Productos
-
-
-                    </Text>
-
-                    <TouchableHighlight style={{
-                        borderColor: 'white',
-                    }}
-                                        onPress={() => {
-                                            this.GoToBuy()
-                                        }}
-                    >
-                        <Text style={{color: 'white'}}>presione aqui</Text>
-                    </TouchableHighlight>
+                    <NavigatorIOS
+                        initialRoute={{
+                            component: QRCodeScanner,
+                            title: 'Scan Code',
+                            passProps: {
+                                onRead: this.onSuccess.bind(this),
+                                topContent: (
+                                    <Text style={styles.centerText}>
+                                        Go to <Text style={styles.textBold}>wikipedia.org/wiki/QR_code</Text> on your computer and scan the QR code.
+                                    </Text>
+                                ),
+                                bottomContent: (
+                                    <TouchableOpacity style={styles.buttonTouchable}>
+                                        <Text style={styles.buttonText}>OK. Got it!</Text>
+                                    </TouchableOpacity>
+                                ),
+                            },
+                        }}
+                        style={{ flex: 1 }}
+                    />
                 </View>
                 <View style={[styles.box, styles.box3]}>
                     <Tabs selected={this.state.page} style={{backgroundColor: 'white'}}

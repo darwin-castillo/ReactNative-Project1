@@ -16,7 +16,7 @@ import {
     Image,
     ScrollView,
 } from 'react-native';
-import {RNCamera} from 'react-native-camera'
+
 import Tabs from 'react-native-tabs';
 //import  Icon from 'react-native-vector-icons/FontAwesome';
 import {navigation, NavigationDrawer} from "../common/navigation";
@@ -139,47 +139,49 @@ export class MainView extends Component {
                     style={[styles.box, styles.box1]}
                     source={require('../../assets/header.png')}>
                     <Image
-                        style={{width: 100, height: 100}}
+                        style={{width: 100, height: 100,  borderRadius:100,}}
                         source={{uri: this.state.imageUser}}
                     />
 
                     <Text style={{fontSize: 25, color: 'black', borderColor: 'black'}}>Invitado</Text>
                 </ImageBackground>
 
-                <View style={[styles.box, styles.box2]}>
-                    <Text style={{color: 'white', fontSize: 20}}>
-                        {'Usuario: '+this.state.name+"  "}
+                <View style={[styles.box, styles.box2,{alignItems:'center'}]}>
+                    <Text style={{color: 'white', fontSize: 20, paddingTop:10, paddingBottom:10}}>
                         <Icon name='user' allowFontScaling/>
-                        {" "}
-
-                    </Text>
-                    <Text style={{color: 'white', fontSize: 20}}>
-                        {'Valido Hasta: '}
-                        <Icon name='user' allowFontScaling/>
-                        {" "}
+                        {'  '+this.state.name+"  "}
+                        {"    "}
+                        <Icon name='phone' allowFontScaling/>
+                        {"  "+this.state.phone}
 
                     </Text>
 
+                    <View style={{
+                        paddingBottom:10,
+                        paddingTop: 10,
+                        backgroundColor:'white',
+                        alignItems:'center',
+                        width:270,
+                        justifyContent:'center',
+                        borderRadius:10,
+                        height:270}}>
                     <QRCode
                         value={this.state.qr}
                         size={250}
                         bgColor='black'
                         fgColor='white'/>
+                    </View>
+                    <View style={{alignItems:'center', paddingBottom:5}}>
                     <Text style={{color: 'white', fontSize: 20}}>
-                        {'Contrato: '+this.state.contractCode+"  "}
                         <Icon name='qrcode' allowFontScaling/>
-                        {" "}
-
+                        {"   "+this.state.contractCode+"  "}
                     </Text>
-                    <TouchableHighlight style={{
-                        borderColor: 'white',
-                    }}
-                                        onPress={() => {
-                                            this.GoToBuy()
-                                        }}
-                    >
-                        <Text style={{color: 'white'}}>presione aqui</Text>
-                    </TouchableHighlight>
+                        <Text style={{color: 'white', fontSize: 20}}>
+                            {'Valido Hasta: '}
+                            {" "}
+
+                        </Text>
+                    </View>
                 </View>
                 <View style={[styles.box, styles.box3]}>
                     <Tabs selected={this.state.page} style={{backgroundColor: 'white'}}
