@@ -29,6 +29,7 @@
     "babel-jest": "22.2.2",
     "babel-preset-react-native": "4.0.0",
     "jest": "22.3.0",
+    "react-native-camera": "^1.0.1",
     "react-native-deprecated-custom-components": "^0.1.1",
     "react-native-tabs": "^1.0.9",
     "react-test-renderer": "16.2.0"

@@ -16,6 +16,7 @@ import {
     Image,
     ScrollView,
 } from 'react-native';
+import {RNCamera} from 'react-native-camera'
 import Tabs from 'react-native-tabs';
 //import  Icon from 'react-native-vector-icons/FontAwesome';
 import {navigation, NavigationDrawer} from "../common/navigation";
@@ -147,15 +148,29 @@ export class MainView extends Component {
 
                 <View style={[styles.box, styles.box2]}>
                     <Text style={{color: 'white', fontSize: 20}}>
-                        {'Darwin Castillo '+this.state.contractCode+' '+this.state.imageUser+' '+this.state.name+' '+this.state.phone}
+                        {'Usuario: '+this.state.name+"  "}
                         <Icon name='user' allowFontScaling/>
+                        {" "}
 
                     </Text>
+                    <Text style={{color: 'white', fontSize: 20}}>
+                        {'Valido Hasta: '}
+                        <Icon name='user' allowFontScaling/>
+                        {" "}
+
+                    </Text>
+
                     <QRCode
                         value={this.state.qr}
                         size={250}
                         bgColor='black'
                         fgColor='white'/>
+                    <Text style={{color: 'white', fontSize: 20}}>
+                        {'Contrato: '+this.state.contractCode+"  "}
+                        <Icon name='qrcode' allowFontScaling/>
+                        {" "}
+
+                    </Text>
                     <TouchableHighlight style={{
                         borderColor: 'white',
                     }}
