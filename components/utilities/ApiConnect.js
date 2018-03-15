@@ -20,7 +20,7 @@ const ApiConnect = {
 
      getStorageByKey(key){
         this.searchKey(key).then((resp) => {
-            // ToastAndroid.show('Token: '+resp,ToastAndroid.SHORT);
+
             if (resp !== null) {
                 Bearer = "Bearer " + resp;
 
@@ -42,7 +42,7 @@ const ApiConnect = {
 
        return(
            this.searchKey('access_token').then((resp) => {
-               // ToastAndroid.show('Token: '+resp,ToastAndroid.SHORT);
+
                Bearer = "Bearer "+resp;
                 return this.FetchingData(method, endpoint, payload)
            } )
@@ -54,7 +54,6 @@ const ApiConnect = {
     },
 
     FetchingData(method:string, endpoint:string, payload:any):Promise<Response>{
-         ToastAndroid.show("Si es ? "+Bearer,ToastAndroid.SHORT);
       return  fetch(apiUrl+endpoint, {
             method:method,
             headers: {  Accept: 'application/json',

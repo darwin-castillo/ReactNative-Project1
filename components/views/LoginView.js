@@ -271,10 +271,9 @@ export  class  LoginView extends Component {
         this.setState({spinnerMessage:'Obteniendo Data de Usuario...',});
         ApiConnect.RequestApi('GET', 'current/user',null)
             .then((responseJson) => {
-                this.setState({spinnerMessage:'',spinnerVisible:true});
+                this.setState({spinnerMessage:'',spinnerVisible:false});
                 if(responseJson.ok) {
                     responseJson.json().then((rsp)=>{
-                        this.AlertMesg("HEy Hey",""+JSON.stringify(rsp));
                         AsyncStorage.setItem('contractCode',rsp.contractCode);
                         AsyncStorage.setItem('image',rsp.image);
                         AsyncStorage.setItem('email',rsp.email);
@@ -301,7 +300,6 @@ export  class  LoginView extends Component {
                 this.setState({spinnerMessage:'',spinnerVisible:true});
                 if(responseJson.ok) {
                     responseJson.json().then((rsp)=>{
-                        this.AlertMesg("HEy Hey",""+JSON.stringify(rsp));
                         AsyncStorage.setItem('contractCode',rsp.contractCode);
                         AsyncStorage.setItem('image',rsp.image);
                         AsyncStorage.setItem('email',rsp.email);
@@ -314,7 +312,7 @@ export  class  LoginView extends Component {
 
                 }
                 else{
-                    this.AlertMesg("ERROR","Error interno: "+JSON.stringify(responseJson));
+                    this.AlertMesg("ERROR","Error interno: ");
                 }
 
             })
@@ -342,6 +340,7 @@ export  class  LoginView extends Component {
                        }
                        else if(responseJson.status === 401){
                            this.AlertMesg("ERROR","Usuario y/o Contraseña Incorrecta");
+                           this.setState({spinnerMessage:'',spinnerVisible:false});
                        }
                        else{
                            this.AlertMesg("ERROR","Error interno");

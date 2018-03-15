@@ -25,13 +25,15 @@ import Icon from 'react-native-fa-icons';
 import {GoView} from "../common/drawer";
 import PopoverTooltip from "react-native-popover-tooltip";
 
-import QRCode from 'react-native-qrcode';
+
 import {StorageConnect} from "../utilities/StorageConnect";
+import QRCode from "react-native-qrcode";
 //import { BarCodeScanner, Permissions } from "expo";
 
-var {height} = Dimensions.get('window');
+var {width, height} = Dimensions.get('window');
 var box_count = 3;
 var box_height = height / box_count;
+
 
 export class MainView extends Component {
     navigationOptions: {
@@ -139,35 +141,62 @@ export class MainView extends Component {
                     style={[styles.box, styles.box1]}
                     source={require('../../assets/header.png')}>
                     <Image
-                        style={{width: 100, height: 100,  borderRadius:100,}}
+                        style={{width: 70, height: 70,  borderRadius:100, borderWidth:1}}
                         source={{uri: this.state.imageUser}}
                     />
 
                     <Text style={{fontSize: 25, color: 'black', borderColor: 'black'}}>Invitado</Text>
                 </ImageBackground>
 
-                <View style={[styles.box, styles.box2,{alignItems:'center'}]}>
-                    <Text style={{color: 'white', fontSize: 20, paddingTop:10, paddingBottom:10}}>
+                <View style={[styles.box, styles.box2,{alignItems:'center', }]}>
+                <View style={[styles.gridView,{}]}>
+                    <Text style={
+                        {fontSize:14,
+                            color:'white',
+                            alignSelf:'flex-start', marginLeft:10,marginTop:2}}>Usuario</Text>
+                    <Text
+                        style={{color: 'white',
+                            fontSize: 20,
+                            paddingBottom:2,
+                        }}
+
+                    >
                         <Icon name='user' allowFontScaling/>
-                        {'  '+this.state.name+"  "}
-                        {"    "}
-                        <Icon name='phone' allowFontScaling/>
-                        {"  "+this.state.phone}
+                        {"   "+this.state.name+"  "}
 
                     </Text>
+
+                </View>
+                    <View style={[styles.gridView,{marginBottom:5,}]}>
+                        <Text style={
+                            {fontSize:14,
+                                color:'white',
+                                alignSelf:'flex-start', marginLeft:10,marginTop:2}}>Telefono</Text>
+                        <Text
+                            style={{color: 'white',
+                                fontSize: 20,
+                                paddingBottom:2,
+                            }}
+                        >
+                            <Icon name='phone' allowFontScaling/>
+                            {"   "+this.state.phone+"  "}
+                        </Text>
+
+                    </View>
 
                     <View style={{
                         paddingBottom:10,
                         paddingTop: 10,
                         backgroundColor:'white',
                         alignItems:'center',
-                        width:270,
+                        width: height*.35,
+                        height: height* .35,
                         justifyContent:'center',
                         borderRadius:10,
-                        height:270}}>
+                         }}>
                     <QRCode
                         value={this.state.qr}
-                        size={250}
+                        size={height*.3}
                         bgColor='black'
                         fgColor='white'/>
                     </View>
@@ -176,11 +205,7 @@ export class MainView extends Component {
                         <Icon name='qrcode' allowFontScaling/>
                         {"   "+this.state.contractCode+"  "}
                     </Text>
-                        <Text style={{color: 'white', fontSize: 20}}>
-                            {'Valido Hasta: '}
-                            {" "}
 
-                        </Text>
                     </View>
                 </View>
                 <View style={[styles.box, styles.box3]}>
@@ -311,6 +336,17 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
+    },
+    gridView:{
+       // borderTopWidth:1,
+        borderBottomWidth:1,
+        width:width,
+        marginLeft:10,
+        marginRight:10,
+        borderTopColor:'white',
+        borderBottomColor:'white',
+        borderLeftColor:'white',
+        borderRightColor:'white'
     },
     TextStyle: {
         fontSize: 20,
