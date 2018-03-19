@@ -12,6 +12,7 @@ import * as ToastAndroid from "react-native/Libraries/Components/ToastAndroid/To
 
 export class BarcodeScannerApp extends Component {
  producto="";
+ th
  back=false;
     constructor(props) {
         super(props);
@@ -75,7 +76,7 @@ export class BarcodeScannerApp extends Component {
                 <View style={styles.statusBar}>
                     <TouchableHighlight
                         style={styles.submit}
-                        onPress={() => { this.props.navigation.navigate('BuyProduct',{nave:this.props.navigation.state.params.nave,producto:this.producto+",1",back:this.back,data:"105"}) }}
+                        onPress={() => { this.props.navigation.navigate('BuyProduct',{nave:this.props.navigation.state.params.nave,producto:this.producto+",1",back:this.back,/*data:"105"*/}) }}
                         underlayColor='#fff'>
                     <Text style={styles.statusBarText}>{'Escanear Codigo de '+this.props.navigation.state.params.nave}</Text>
                     </TouchableHighlight>

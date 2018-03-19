@@ -139,67 +139,95 @@ export class MainView extends Component {
                 <ImageBackground
                     resizeMode='stretch'
                     style={[styles.box, styles.box1]}
-                    source={require('../../assets/header.png')}>
-                    <Image
-                        style={{width: 70, height: 70,  borderRadius:100, borderWidth:1}}
+                 source={require('../../assets/fondo_header.png')}
+                >
+                  <View style={{
+                      flexDirection:'column',
+                      alignItems:'flex-end',
+                      justifyContent:'flex-end',
+                      marginRight:10,}}>
+                    <Text style={{fontSize:25,}}>Invitado</Text>
+                  </View>
+
+                    <View style={{
+                        borderTopColor:'black',
+                        borderBottomColor:'black',
+                        borderLeftColor:'black',
+                        borderTopWidth:1,
+                        borderRightColor:'black',
+                        borderBottomWidth:1,
+                        borderRightWidth:1,
+                        borderLeftWidth:1,
+                        marginBottom:5,
+                        marginTop:5,
+                        marginLeft:5,
+                        marginRight:10,
+                        alignSelf:'flex-end',
+                        padding:2,
+
+                    }}
+                          >
+                <Image
+                        style={{width: 70, height: 70,  borderRadius:0, borderWidth:1, margin:2,}}
                         source={{uri: this.state.imageUser}}
                     />
+                        <Text style={{textAlign: 'center',backgroundColor:'black',color:'white'}}>Principal</Text>
 
-                    <Text style={{fontSize: 25, color: 'black', borderColor: 'black'}}>Invitado</Text>
+</View>
                 </ImageBackground>
 
                 <View style={[styles.box, styles.box2,{alignItems:'center', }]}>
-                <View style={[styles.gridView,{}]}>
+                <View style={{ flexDirection: 'row',}}>
+
+                   <View style={{flex: 1,}}>
                     <Text style={
                         {fontSize:14,
                             color:'white',
-                            alignSelf:'flex-start', marginLeft:10,marginTop:2}}>Usuario</Text>
-                    <Text
-                        style={{color: 'white',
-                            fontSize: 20,
-                            paddingBottom:2,
-                        }}
+                            alignSelf:'flex-start', marginLeft:10,marginTop:1}}>MIEMBRO</Text>
 
-                    >
-                        <Icon name='user' allowFontScaling/>
-                        {"   "+this.state.name+"  "}
-
+                    <Text style={{color: 'white',
+                            fontSize: 15,
+                            paddingBottom:0, }} >
+                        {"  "+this.state.name+"  "}
                     </Text>
+                   </View>
 
-                </View>
-                    <View style={[styles.gridView,{marginBottom:5,}]}>
+
+
+                    <View style={{marginLeft:'auto'}}>
                         <Text style={
                             {fontSize:14,
                                 color:'white',
-                                alignSelf:'flex-start', marginLeft:10,marginTop:2}}>Telefono</Text>
+                                alignSelf:'flex-start',marginTop:1, marginRight:5}}>VALIDO HASTA</Text>
                         <Text
                             style={{color: 'white',
-                                fontSize: 20,
-                                paddingBottom:2,
-                            }}
-                        >
-                            <Icon name='phone' allowFontScaling/>
-                            {"   "+this.state.phone+"  "}
+                                fontSize: 15,
+                                marginRight:5,
+                                paddingBottom:0,}}>
+                         01/01/2018
                         </Text>
-
                     </View>
+                </View>
 
+<View style={{flex:1, alignItems:'center', justifyContent:'center'}}>
                     <View style={{
                         paddingBottom:10,
                         paddingTop: 10,
                         backgroundColor:'white',
                         alignItems:'center',
-                        width: height*.35,
-                        height: height* .35,
+                        width: height*.5,
+                        height: height* .5,
                         justifyContent:'center',
                         borderRadius:10,
+
                          }}>
                     <QRCode
                         value={this.state.qr}
-                        size={height*.3}
+                        size={height*.4}
                         bgColor='black'
                         fgColor='white'/>
                     </View>
+
                     <View style={{alignItems:'center', paddingBottom:5}}>
                     <Text style={{color: 'white', fontSize: 20}}>
                         <Icon name='qrcode' allowFontScaling/>
@@ -207,6 +235,7 @@ export class MainView extends Component {
                     </Text>
 
                     </View>
+</View>
                 </View>
                 <View style={[styles.box, styles.box3]}>
                     <Tabs selected={this.state.page} style={{backgroundColor: 'white'}}
@@ -339,14 +368,14 @@ const styles = StyleSheet.create({
     },
     gridView:{
        // borderTopWidth:1,
-        borderBottomWidth:1,
+       // borderBottomWidth:1,
         width:width,
         marginLeft:10,
         marginRight:10,
-        borderTopColor:'white',
-        borderBottomColor:'white',
-        borderLeftColor:'white',
-        borderRightColor:'white'
+       // borderTopColor:'white',
+      //  borderBottomColor:'white',
+      //  borderLeftColor:'white',
+      //  borderRightColor:'white'
     },
     TextStyle: {
         fontSize: 20,
@@ -362,13 +391,15 @@ const styles = StyleSheet.create({
     },
     box1: {
         backgroundColor: '#ffffff',
-        flex: 4,
-        justifyContent: 'center',
-        alignItems: 'center'
+        flex: 3,
+        flexDirection: 'row',
+       justifyContent:'flex-end',
+        padding:1,
     },
     box2: {
         backgroundColor: '#114512',
-        flex: 10
+        flex: 12,
+
     },
     box3: {
         backgroundColor: '#114512',
