@@ -11,13 +11,13 @@ import BarcodeScanner from 'react-native-barcodescanner';
 import * as ToastAndroid from "react-native/Libraries/Components/ToastAndroid/ToastAndroid.android";
 
 export class BarcodeScannerApp extends Component {
- producto="";
- th
+  producto="";
+ socio="";
  back=false;
     constructor(props) {
         super(props);
         let prod="";
-
+        let spons="";
         this.state = {
             barcode: '',
             cameraType: 'back',
@@ -30,8 +30,10 @@ export class BarcodeScannerApp extends Component {
 
         if(this.props.navigation.state.params)
         {
-            if(this.props.navigation.state.params.producto){
+            if(this.props.navigation.state.params.producto
+                && this.props.navigation.state.params.socio){
                 prod=this.props.navigation.state.params.producto;
+                spons = this.props.navigation.state.params.socio;
             }
             if(this.props.navigation.state.params.entrega){
                 let bck = this.props.navigation.state.params.entrega;
@@ -41,8 +43,10 @@ export class BarcodeScannerApp extends Component {
             }
         }
         this.producto=""+prod;
+        this.socio=""+spons;
     }
     barcodeReceived(e) {
+        let navi = this.props.navigation.state.params.nave;
         if (e.data !== this.state.barcode || e.type !== this.state.type) Vibration.vibrate();
 
         JSON.parse(e.data, (key, value) => {
@@ -51,7 +55,15 @@ export class BarcodeScannerApp extends Component {
             }
             return value;
         });
+/*
+        if(navi === 'Producto' && !this.back)
         this.producto=this.producto+","+e.data;
+      else if(navi === 'Socio')
+          this.socio = this.socio +","+e.data;
+*/
+
+
+
         this.setState({
             barcode: e.data,
             text: `${e.data} (${e.type})`,
@@ -59,7 +71,7 @@ export class BarcodeScannerApp extends Component {
 
 
         });
-        this.props.navigation.navigate('BuyProduct',{producto:this.producto, back:this.back, data: e.data });
+        this.props.navigation.navigate('BuyProduct',{nave:this.props.navigation.state.params.nave,producto:this.producto, socio:this.socio,back:this.back, data: e.data });
     }
 
     render() {
@@ -76,7 +88,7 @@ export class BarcodeScannerApp extends Component {
                 <View style={styles.statusBar}>
                     <TouchableHighlight
                         style={styles.submit}
-                        onPress={() => { this.props.navigation.navigate('BuyProduct',{nave:this.props.navigation.state.params.nave,producto:this.producto+",1",back:this.back,/*data:"105"*/}) }}
+                        onPress={() => { this.props.navigation.navigate('BuyProduct',{nave:this.props.navigation.state.params.nave,producto:this.producto, socio:this.socio,back:false, data: '{"id":390,"sponsorContract":"ZIPPY90000"}'} ); }}
                         underlayColor='#fff'>
                     <Text style={styles.statusBarText}>{'Escanear Codigo de '+this.props.navigation.state.params.nave}</Text>
                     </TouchableHighlight>

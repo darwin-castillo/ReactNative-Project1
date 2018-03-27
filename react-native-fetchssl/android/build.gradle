@@ -1,0 +1,21 @@
+apply plugin: "com.android.library"
+
+import com.android.build.OutputFile
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.1"
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.0"
+    }
+
+}
+
+dependencies {
+    compile "com.facebook.react:react-native:+"  // From node_modules
+    compile 'org.springframework.android:spring-android-rest-template:2.0.0.M3'
+}

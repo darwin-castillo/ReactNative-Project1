@@ -107,6 +107,19 @@ android {
             abiFilters "armeabi-v7a", "x86"
         }
     }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LGPL2.1'
+    }
     dexOptions {
         incremental true
         javaMaxHeapSize "4g"
@@ -142,8 +155,10 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-pinch')
     compile project(':react-native-shimmer')
     compile project(':react-native-barcodescanner')
+    compile project(':react-native-fetchssl')
     compile project(':react-native-vector-icons')
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"

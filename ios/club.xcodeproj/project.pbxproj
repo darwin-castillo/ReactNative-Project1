@@ -53,6 +53,10 @@
 		676A4EA5C7FE486B8351AA90 /* golf-player.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D904F99254E74623875E8C7E /* golf-player.ttf */; };
 		6207135D5A3F487DAEA6058C /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B903AD28FBC244C8AAF5EC8F /* FontAwesome.ttf */; };
 		5711AEFD33EA42EDB4689B3C /* libRNShimmer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BE7658C6E5174D02927BE53D /* libRNShimmer.a */; };
+		03D4A6F450324187A311C2AA /* Montserrat-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8894E82AF6DC46A9A2DA1AFF /* Montserrat-ExtraLight.ttf */; };
+		22A893BA20BE4FA0BBE563AA /* Montserrat-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 300D5C92C6E44CC09FB75178 /* Montserrat-Light.ttf */; };
+		C4E87C52AA9944DEA0D4A212 /* Montserrat-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C5AAA028B80F406FBB50C707 /* Montserrat-Thin.ttf */; };
+		E3263317801B4F06801B178A /* libRNPinch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4135B81A7EC5459CBDB88B2F /* libRNPinch.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -322,6 +326,11 @@
 		B903AD28FBC244C8AAF5EC8F /* FontAwesome.ttf */ = {isa = PBXFileReference; name = "FontAwesome.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		FB78179EAC8D46BBBAF3C704 /* RNShimmer.xcodeproj */ = {isa = PBXFileReference; name = "RNShimmer.xcodeproj"; path = "../node_modules/react-native-shimmer/ios/RNShimmer.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		BE7658C6E5174D02927BE53D /* libRNShimmer.a */ = {isa = PBXFileReference; name = "libRNShimmer.a"; path = "libRNShimmer.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		8894E82AF6DC46A9A2DA1AFF /* Montserrat-ExtraLight.ttf */ = {isa = PBXFileReference; name = "Montserrat-ExtraLight.ttf"; path = "../assets/fonts/Montserrat-ExtraLight.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		300D5C92C6E44CC09FB75178 /* Montserrat-Light.ttf */ = {isa = PBXFileReference; name = "Montserrat-Light.ttf"; path = "../assets/fonts/Montserrat-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C5AAA028B80F406FBB50C707 /* Montserrat-Thin.ttf */ = {isa = PBXFileReference; name = "Montserrat-Thin.ttf"; path = "../assets/fonts/Montserrat-Thin.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		185C2275F0F94C79A79C1A15 /* RNPinch.xcodeproj */ = {isa = PBXFileReference; name = "RNPinch.xcodeproj"; path = "../node_modules/react-native-pinch/RNPinch.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		4135B81A7EC5459CBDB88B2F /* libRNPinch.a */ = {isa = PBXFileReference; name = "libRNPinch.a"; path = "libRNPinch.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -353,6 +362,7 @@
 				E35CA766225A430D9B0E8B1C /* libToolTipMenu.a in Frameworks */,
 				88F0C2C2369745CDB272A8FC /* libRNVectorIcons.a in Frameworks */,
 				5711AEFD33EA42EDB4689B3C /* libRNShimmer.a in Frameworks */,
+				E3263317801B4F06801B178A /* libRNPinch.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -533,6 +543,7 @@
 				CA6F4DFEE76C4BC09AB002B1 /* ToolTipMenu.xcodeproj */,
 				5AAAEBE361AE4681A0BB2259 /* RNVectorIcons.xcodeproj */,
 				FB78179EAC8D46BBBAF3C704 /* RNShimmer.xcodeproj */,
+				185C2275F0F94C79A79C1A15 /* RNPinch.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -598,6 +609,9 @@
 				90FCD48D1A4041FFA2F1E699 /* Zocial.ttf */,
 				D904F99254E74623875E8C7E /* golf-player.ttf */,
 				B903AD28FBC244C8AAF5EC8F /* FontAwesome.ttf */,
+				8894E82AF6DC46A9A2DA1AFF /* Montserrat-ExtraLight.ttf */,
+				300D5C92C6E44CC09FB75178 /* Montserrat-Light.ttf */,
+				C5AAA028B80F406FBB50C707 /* Montserrat-Thin.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1007,6 +1021,9 @@
 				5EE6B11963B34661835DBD9B /* Zocial.ttf in Resources */,
 				676A4EA5C7FE486B8351AA90 /* golf-player.ttf in Resources */,
 				6207135D5A3F487DAEA6058C /* FontAwesome.ttf in Resources */,
+				03D4A6F450324187A311C2AA /* Montserrat-ExtraLight.ttf in Resources */,
+				22A893BA20BE4FA0BBE563AA /* Montserrat-Light.ttf in Resources */,
+				C4E87C52AA9944DEA0D4A212 /* Montserrat-Thin.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1140,12 +1157,14 @@
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/club.app/club";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-tooltip/ToolTipMenu",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-shimmer/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-pinch/RNPinch",
 				);
 			};
 			name = Debug;
@@ -1166,12 +1185,14 @@
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/club.app/club";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-tooltip/ToolTipMenu",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-shimmer/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-pinch/RNPinch",
 				);
 			};
 			name = Release;
@@ -1196,6 +1217,7 @@
 					"$(SRCROOT)/../node_modules/react-native-tooltip/ToolTipMenu",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-shimmer/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-pinch/RNPinch",
 				);
 			};
 			name = Debug;
@@ -1219,6 +1241,7 @@
 					"$(SRCROOT)/../node_modules/react-native-tooltip/ToolTipMenu",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-shimmer/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-pinch/RNPinch",
 				);
 			};
 			name = Release;
@@ -1248,12 +1271,14 @@
 				TVOS_DEPLOYMENT_TARGET = 9.2;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-tooltip/ToolTipMenu",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-shimmer/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-pinch/RNPinch",
 				);
 			};
 			name = Debug;
@@ -1283,12 +1308,14 @@
 				TVOS_DEPLOYMENT_TARGET = 9.2;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-tooltip/ToolTipMenu",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-shimmer/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-pinch/RNPinch",
 				);
 			};
 			name = Release;
@@ -1313,6 +1340,7 @@
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 			};
 			name = Debug;
@@ -1337,6 +1365,7 @@
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 			};
 			name = Release;

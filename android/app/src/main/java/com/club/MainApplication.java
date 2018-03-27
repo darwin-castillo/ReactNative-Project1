@@ -3,6 +3,7 @@ package com.club;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.localz.PinchPackage;
 import com.oblador.shimmer.RNShimmerPackage;
 import com.eguma.barcodescanner.BarcodeScannerPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -10,6 +11,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+import com.zippyttech.apifetchssl.RNFetchsslPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,6 +28,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new PinchPackage(),
+            new RNFetchsslPackage(),
             new RNShimmerPackage(),
             new BarcodeScannerPackage(),
             new VectorIconsPackage()

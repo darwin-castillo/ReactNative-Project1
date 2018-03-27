@@ -5,38 +5,27 @@ import {
     Text,
     BackHandler,
     ToastAndroid,
-    Button,
-    DrawerLayoutAndroid,
     ImageBackground,
-    TouchableHighlight,
-    FlatList,
     Dimensions,
     Alert,
     AsyncStorage,
-    Image,
-    ScrollView, Picker,
+    ListView,
 } from 'react-native';
 import Tabs from 'react-native-tabs';
 
 import {navigation, NavigationDrawer} from "../common/navigation";
 import {StackNavigator,NavigationActions } from 'react-navigation';
-import ActionButton from 'react-native-action-button';
-import {navigationView} from "../common/drawer";
 import Icon from 'react-native-fa-icons';
-import {TabsMenu} from "../common/tabs";
 import PopoverTooltip from "react-native-popover-tooltip";
-//import { BarCodeScanner, Permissions } from "expo";
 import { FloatingAction } from 'react-native-floating-action';
-import BarcodeScanner from 'react-native-barcodescanner';
-import {BarcodeScannerApp} from './BarcodeScannerApp'
 import ApiConnect from "../utilities/ApiConnect";
 import Spinner from "react-native-loading-spinner-overlay";
 import PopupDialog, {DialogButton, DialogTitle, SlideAnimation} from 'react-native-popup-dialog';
 
 
-    var { height } = Dimensions.get('window');
-var box_count = 3;
-var box_height = height / box_count;
+let { height } = Dimensions.get('window');
+let box_count = 3;
+let box_height = height / box_count;
 
 
 
@@ -67,10 +56,13 @@ const actions = [{
 
 export class  BuyProductView extends Component{
 producto ="";
+sponsor="";
     back=false;
     constructor(props){
         super(props);
         let prod="";
+        let spons="";
+        let SponsorOrProduct="";
         this.state = {
             hasCameraPermission: null,
             page: 'BuyProduct',
@@ -81,26 +73,33 @@ producto ="";
             productTypeTitle:'',
             codeProduct:'',
             productState:'Buen Estado',
+            listOfProducts:[],
+            listOfSponsors:[],
+            albums: [],
 
         };
+        this.dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1!==r2});
 
         if(this.props.navigation.state.params)
         {
             if(this.props.navigation.state.params.producto){
                 prod=this.props.navigation.state.params.producto;
+                spons=this.props.navigation.state.params.socio;
+                SponsorOrProduct = this.props.navigation.state.params.nave;
+                this.searchAndAddSponsorProduct(SponsorOrProduct,this.props.navigation.state.params.data);
+
+
             }
            if(this.props.navigation.state.params.back){
                 this.back=true;
               if(this.props.navigation.state.params.data){
-
                   this.searchGetBack(this.props.navigation.state.params.data);
               }
-                // this.AlertMesg('ENTREGA DE PRODUCTOS','El Producto: Carrito de Golf '+this.props.navigation.state.params.data+' va a ser entregado, desea continuar ?')
-
            }
         }
 
-        this.producto=""+prod;
+        //this.producto=""+prod;
+        //this.sponsor=""+spons;
     }
 
     resetNavigation(targetRoute) {
@@ -171,6 +170,47 @@ producto ="";
             })
     }
 
+    searchAndAddSponsorProduct(sponsorOrProduct, data){
+
+        if(sponsorOrProduct === 'Socio'){
+       ToastAndroid.show("Entrando en Socio...",ToastAndroid.SHORT);
+           let idQr = "";
+           let sponsorContact = "";
+            data.json().then((value)=>{
+                //get contract code
+                idQr = value.id;
+                sponsorContact = value.sponsorContract;
+                let whereCustomer ="[[\"join\":\"sponsor\",\"where\":[[\"op\":\"eq\",\"field\":\"contractCode\",\"value\":\"" + sponsorContract + "\"]]]]";
+                // now prepare to get data user by sponsorContract
+                ApiConnect.RequestApi('GET', 'qr/codes/'+idQr+'/?offset=0&where='+whereCustomer,null)
+                    .then((responseJson) => {
+                        if(responseJson.ok) {
+                            responseJson.json().then((rsp)=>{
+                                this.setState({visible:false});
+                                ToastAndroid.show("sponsorName: "+rsp.sponsorName,ToastAndroid.SHORT);
+                                let arrayvar = this.state.listOfSponsors.slice();
+                                arrayvar.push(rsp.sponsorName);
+                                this.setState({ listOfSponsor: arrayvar });
+
+                            })
+
+                        }
+                        else if(responseJson.status === 401){
+                            this.AlertMesg("ERROR 401","No Tiene Autorización ");
+                        }
+                        else{
+                            this.AlertMesg("ERROR","Error interno");
+                        }
+
+                    })
+
+
+            });
+        }
+
+
+    }
+
 
     productGetBack(codeProduct){
      //let payload='{"list":[{"state":1,"products":"'+k+'","byClient":false,"detail":"se encontró cerca de la piscina olvidado"},{...}]}';
@@ -212,15 +252,8 @@ producto ="";
 
                             })
 
-
-
     }
 
-
-    barcodeReceived(e) {
-       this.AlertMesg('QRScanner','Barcode: ' + e.data);
-     //   console.log('Type: ' + e.type);
-    }
     AlertMesg(title: string, message: string,) {
         Alert.alert(
             title,
@@ -238,9 +271,7 @@ producto ="";
         this.props.navigation.navigate(page);
     }
 
-
     render(){
-
         return(
             <View style={styles.container}>
                 <PopupDialog
@@ -345,7 +376,11 @@ producto ="";
                         { this.state.socio}
                     </Text>
 
-                  <Text style={{color: 'white'}}>(Socio que va a realizar la compra de producto/servicio)</Text>
+                    <ListView
+                       // enableEmptySections={true}
+                        dataSource={this.dataSource.cloneWithRows(this.state.listOfSponsors)}
+                        renderRow={(rowData) => <Text>{rowData}</Text>}
+                    />
                 </View>
 
                 <View style={[styles.box, styles.box2]}>
@@ -361,35 +396,36 @@ producto ="";
                           selectedStyle={{}} /* onSelect={el=>this.setState({page:el.props.name})}*/
                           onSelect={(el) => {
                               this.setState({page: el.props.name});
-                             this.GoToBuy(el.props.name);
-
+                              this.GoToBuy(el.props.name);
                           }}
                     >
 
                         <View  name="Main" style={{alignItems:'center',}} selectedIconStyle={{borderTopWidth: 2, borderTopColor: 'green'}}>
                             <Icon  name="user"   />
-                            <Text name="Main">Perfil</Text>
+                            <Text style={{fontFamily: 'Montserrat-Light',fontSize:12}} name="Main">Perfil</Text>
                         </View>
                         <View  name="BuyProduct" style={{alignItems:'center',}} selectedIconStyle={{borderTopWidth: 2, borderTopColor: 'green'}}>
                             <Icon  name="shopping-cart"   />
-                            <Text name="BuyProduct">Productos</Text>
+                            <Text style={{fontFamily: 'Montserrat-Light', fontSize:12}} numberOfLines={1} name="BuyProduct">Productos</Text>
                         </View>
                         <View  name="a" style={{alignItems:'center',}} selectedIconStyle={{borderTopWidth: 2,borderTopColor: 'green'}}>
                             <Icon  name="map"   />
-                            <Text name="a">Mapa</Text>
+                            <Text style={{fontFamily: 'Montserrat-Light',fontSize:12}} name="a">Mapa</Text>
                         </View>
                         <View  name="b" style={{alignItems:'center',}} selectedIconStyle={{borderTopWidth: 2, borderTopColor: 'green'}}>
                             <Icon  name="envelope-open"   />
-                            <Text name="b">Invitar</Text>
+                            <Text  style={{fontFamily: 'Montserrat-Light',fontSize:12}} name="b">Invitar</Text>
                         </View>
-                        <View  name="c" selectedIconStyle={{borderTopWidth: 2, borderTopColor: 'green'}}>
+                        <View   name="c" selectedIconStyle={{borderTopWidth: 2, borderTopColor: 'green'}}>
                             <PopoverTooltip
                                 ref='tooltip_pass'
+                                labelSeparatorColor='gray'
                                 buttonComponent={
                                     <View style={{alignItems:'center',}}>
                                         <Icon  name="ellipsis-h"   />
-                                        <Text name="c">Más</Text>
+                                        <Text style={{fontFamily: 'Montserrat-Light',fontSize:12,}} name="c">Más</Text>
                                     </View>
+
                                 }
 
                                 items={[
@@ -399,7 +435,7 @@ producto ="";
                                             Alert.alert('Sesión de Usuario', 'Realmente desea cerrar sesión ?',
                                                 [
                                                     // {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-                                                    {text: 'SI', onPress: () => console.log('OK Pressed')},
+                                                    {text: 'SI', onPress: () => {this.handleSignOut()}},
                                                     {text: 'NO', onPress: () => console.log('OK Pressed')},
                                                 ],
                                                 {cancelable: false});
@@ -429,10 +465,10 @@ producto ="";
                             console.log(`selected button: ${name}`);
                             if(name==='bt_product'){
                                 // this._onPressQRCode();
-                               this.props.navigation.navigate('BarcodeScan',{nave:'Producto',producto: this.producto,entrega:'0'});
+                               this.props.navigation.navigate('BarcodeScan',{nave:'Producto',producto: this.producto, socio:this.socio,entrega:'0'});
                             }
                             if(name==='bt_sponsor'){
-                                this.props.navigation.navigate('BarcodeScan',{nave:'Socio',producto: this.producto,entrega:'0'})
+                                this.props.navigation.navigate('BarcodeScan',{nave:'Socio',producto: this.producto, socio:this.socio,entrega:'0'})
                             }
                             if(name === 'bt_getback'){
                                 this.props.navigation.navigate('BarcodeScan',{nave:'Producto',entrega:'1'})

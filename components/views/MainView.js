@@ -15,6 +15,7 @@ import {
     AsyncStorage,
     Image,
     ScrollView,
+    StatusBar,
 } from 'react-native';
 
 import Tabs from 'react-native-tabs';
@@ -56,6 +57,9 @@ export class MainView extends Component {
     componentDidMount() {
         BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
     }
+    componentWillMount() {
+        StatusBar.setHidden(true);
+    }
 
     componentWillUnmount() {
         BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
@@ -82,6 +86,7 @@ export class MainView extends Component {
         phone:'',
         email:'',
         qr:'{\'id\':\'321\',\'sponsorContract\':\'ZIPPY90000\'}',
+
     };
 
 
@@ -158,7 +163,7 @@ export class MainView extends Component {
                         borderBottomWidth:1,
                         borderRightWidth:1,
                         borderLeftWidth:1,
-                        marginBottom:5,
+                        marginBottom:2,
                         marginTop:5,
                         marginLeft:5,
                         marginRight:10,
@@ -168,10 +173,10 @@ export class MainView extends Component {
                     }}
                           >
                 <Image
-                        style={{width: 70, height: 70,  borderRadius:0, borderWidth:1, margin:2,}}
+                        style={{width: 60, height: 60,  borderRadius:0, borderWidth:1, margin:2,}}
                         source={{uri: this.state.imageUser}}
                     />
-                        <Text style={{textAlign: 'center',backgroundColor:'black',color:'white'}}>Principal</Text>
+                        <Text style={{fontFamily:'Montserrat-Thin',fontSize:12,textAlign: 'center',backgroundColor:'black',color:'white'}}>Principal</Text>
 
 </View>
                 </ImageBackground>
@@ -179,16 +184,18 @@ export class MainView extends Component {
                 <View style={[styles.box, styles.box2,{alignItems:'center', }]}>
                 <View style={{ flexDirection: 'row',}}>
 
-                   <View style={{flex: 1,}}>
+                   <View style={{flex: 0.9,}}>
                     <Text style={
-                        {fontSize:14,
+                        {fontSize:12,
+                            fontFamily: 'Montserrat-Light',
                             color:'white',
-                            alignSelf:'flex-start', marginLeft:10,marginTop:1}}>MIEMBRO</Text>
+                            alignSelf:'flex-start', marginLeft:1,marginTop:1}}>MIEMBRO</Text>
 
                     <Text style={{color: 'white',
-                            fontSize: 15,
+                            fontSize: 12,
+                        fontFamily: 'Montserrat-Light',
                             paddingBottom:0, }} >
-                        {"  "+this.state.name+"  "}
+                        {this.state.name}
                     </Text>
                    </View>
 
@@ -196,13 +203,15 @@ export class MainView extends Component {
 
                     <View style={{marginLeft:'auto'}}>
                         <Text style={
-                            {fontSize:14,
+                            {fontSize:12,
                                 color:'white',
-                                alignSelf:'flex-start',marginTop:1, marginRight:5}}>VALIDO HASTA</Text>
+                                fontFamily: 'Montserrat-Light',
+                                alignSelf:'flex-start',marginTop:1, marginRight:0}}>VALIDO HASTA</Text>
                         <Text
                             style={{color: 'white',
-                                fontSize: 15,
+                                fontSize: 12,
                                 marginRight:5,
+                                fontFamily: 'Montserrat-Light',
                                 paddingBottom:0,}}>
                          01/01/2018
                         </Text>
@@ -215,21 +224,21 @@ export class MainView extends Component {
                         paddingTop: 10,
                         backgroundColor:'white',
                         alignItems:'center',
-                        width: height*.5,
-                        height: height* .5,
+                        width: height*.45,
+                        height: height* .45,
                         justifyContent:'center',
                         borderRadius:10,
 
                          }}>
                     <QRCode
                         value={this.state.qr}
-                        size={height*.4}
+                        size={height*.35}
                         bgColor='black'
                         fgColor='white'/>
                     </View>
 
                     <View style={{alignItems:'center', paddingBottom:5}}>
-                    <Text style={{color: 'white', fontSize: 20}}>
+                    <Text style={{color: 'white', fontSize: 14, fontFamily: 'Montserrat-Light',marginRight:2,}}>
                         <Icon name='qrcode' allowFontScaling/>
                         {"   "+this.state.contractCode+"  "}
                     </Text>
@@ -248,28 +257,28 @@ export class MainView extends Component {
 
                         <View  name="Main" style={{alignItems:'center',}} selectedIconStyle={{borderTopWidth: 2, borderTopColor: 'green'}}>
                             <Icon  name="user"   />
-                            <Text name="Main">Perfil</Text>
+                            <Text style={{fontFamily: 'Montserrat-Light',fontSize:12}} name="Main">Perfil</Text>
                         </View>
                         <View  name="BuyProduct" style={{alignItems:'center',}} selectedIconStyle={{borderTopWidth: 2, borderTopColor: 'green'}}>
                             <Icon  name="shopping-cart"   />
-                            <Text name="BuyProduct">Productos</Text>
+                            <Text style={{fontFamily: 'Montserrat-Light', fontSize:12}} numberOfLines={1} name="BuyProduct">Productos</Text>
                         </View>
                         <View  name="a" style={{alignItems:'center',}} selectedIconStyle={{borderTopWidth: 2,borderTopColor: 'green'}}>
                             <Icon  name="map"   />
-                            <Text name="a">Mapa</Text>
+                            <Text style={{fontFamily: 'Montserrat-Light',fontSize:12}} name="a">Mapa</Text>
                         </View>
                         <View  name="b" style={{alignItems:'center',}} selectedIconStyle={{borderTopWidth: 2, borderTopColor: 'green'}}>
                             <Icon  name="envelope-open"   />
-                            <Text name="b">Invitar</Text>
+                            <Text  style={{fontFamily: 'Montserrat-Light',fontSize:12}} name="b">Invitar</Text>
                         </View>
-                        <View  name="c" selectedIconStyle={{borderTopWidth: 2, borderTopColor: 'green'}}>
+                        <View   name="c" selectedIconStyle={{borderTopWidth: 2, borderTopColor: 'green'}}>
                         <PopoverTooltip
                             ref='tooltip_pass'
                             labelSeparatorColor='gray'
                             buttonComponent={
                             <View style={{alignItems:'center',}}>
                             <Icon  name="ellipsis-h"   />
-                            <Text name="c">Más</Text>
+                            <Text style={{fontFamily: 'Montserrat-Light',fontSize:12,}} name="c">Más</Text>
                             </View>
 
                             }
@@ -383,8 +392,9 @@ const styles = StyleSheet.create({
         margin: 10,
     },
     container: {
-        flex: 1,
-        flexDirection: 'column'
+      flex: 1,
+        flexDirection: 'column',
+
     },
     box: {
         height: box_height
