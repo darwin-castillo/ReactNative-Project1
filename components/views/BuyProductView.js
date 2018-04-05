@@ -74,7 +74,7 @@ sponsor="";
             codeProduct:'',
             productState:'Buen Estado',
             listOfProducts:[],
-            listOfSponsors:[],
+            listOfSponsors:[""],
             albums: [],
 
         };
@@ -82,7 +82,8 @@ sponsor="";
 
         if(this.props.navigation.state.params)
         {
-            if(this.props.navigation.state.params.producto){
+            if(this.props.navigation.state.params.producto!==undefined){
+              //  ToastAndroid.show(this.props.navigation.state.params.data,ToastAndroid.SHORT);
                 prod=this.props.navigation.state.params.producto;
                 spons=this.props.navigation.state.params.socio;
                 SponsorOrProduct = this.props.navigation.state.params.nave;
@@ -123,7 +124,7 @@ sponsor="";
     }
 
     handleBackButton() {
-        ToastAndroid.show('Back button is pressed', ToastAndroid.SHORT);
+     //   ToastAndroid.show('Back button is pressed', ToastAndroid.SHORT);
         return true;
     }
 
@@ -136,8 +137,7 @@ sponsor="";
 
         ApiConnect.RequestApi('GET', 'products/?where=[["field":"code", "value":"'+codeProduct+'","op":"eq"]]',null)
             .then((responseJson) => {
-                if(responseJson.ok) {
-                    responseJson.json().then((rsp)=>{
+                 let rsp = JSON.parse(responseJson);
                         this.setState({visible:false});
                         if(rsp.count>=1){
                             if(!rsp.list[0].available) {
@@ -157,55 +157,37 @@ sponsor="";
                         else{
                             this.AlertMesg('ERROR EN DEVOLUCIÓN','Producto No Registrado')
                         }
-                    })
 
-                }
-                else if(responseJson.status === 401){
-                    this.AlertMesg("ERROR 401","No Tiene Autorización ");
-                }
-                else{
-                    this.AlertMesg("ERROR","Error interno");
-                }
+
 
             })
     }
 
     searchAndAddSponsorProduct(sponsorOrProduct, data){
-
+       // ToastAndroid.show("Entrando en "+sponsorOrProduct+" data: "+data,ToastAndroid.SHORT);
         if(sponsorOrProduct === 'Socio'){
-       ToastAndroid.show("Entrando en Socio...",ToastAndroid.SHORT);
+
            let idQr = "";
-           let sponsorContact = "";
-            data.json().then((value)=>{
+           let sponsorContract = "";
+            this.AlertMesg('api',data);
+           let dataObj = JSON.parse(data);
                 //get contract code
-                idQr = value.id;
-                sponsorContact = value.sponsorContract;
-                let whereCustomer ="[[\"join\":\"sponsor\",\"where\":[[\"op\":\"eq\",\"field\":\"contractCode\",\"value\":\"" + sponsorContract + "\"]]]]";
+                idQr = dataObj.id;
+                sponsorContract = dataObj.sponsorContract;
+           //  ToastAndroid.show("id es: "+idQr," Sponsor "+sponsorContract,ToastAndroid.SHORT);
+
+             /*   let whereCustomer ="[[\"join\":\"sponsor\",\"where\":[[\"op\":\"eq\",\"field\":\"contractCode\",\"value\":\"" + sponsorContract + "\"]]]]";
                 // now prepare to get data user by sponsorContract
                 ApiConnect.RequestApi('GET', 'qr/codes/'+idQr+'/?offset=0&where='+whereCustomer,null)
-                    .then((responseJson) => {
-                        if(responseJson.ok) {
-                            responseJson.json().then((rsp)=>{
+                    .then((response) => {
+                                let responseJson = JSON.parse(response);
                                 this.setState({visible:false});
-                                ToastAndroid.show("sponsorName: "+rsp.sponsorName,ToastAndroid.SHORT);
+                                ToastAndroid.show("sponsorName: "+responseJson.sponsorName,ToastAndroid.SHORT);
                                 let arrayvar = this.state.listOfSponsors.slice();
-                                arrayvar.push(rsp.sponsorName);
+                                arrayvar.push(responseJson.sponsorName);
                                 this.setState({ listOfSponsor: arrayvar });
-
-                            })
-
-                        }
-                        else if(responseJson.status === 401){
-                            this.AlertMesg("ERROR 401","No Tiene Autorización ");
-                        }
-                        else{
-                            this.AlertMesg("ERROR","Error interno");
-                        }
-
                     })
-
-
-            });
+*/
         }
 
 
@@ -225,7 +207,7 @@ sponsor="";
             ]
         };
         let payloadStr = JSON.stringify(payload);
-        ToastAndroid.show(payloadStr,ToastAndroid.LONG);
+        //ToastAndroid.show(payloadStr,ToastAndroid.LONG);
                         ApiConnect.RequestApi('POST', 'getback',payloadStr)
                             .then((responseJson) => {
                                 this.setState({visible:false});
@@ -468,7 +450,8 @@ sponsor="";
                                this.props.navigation.navigate('BarcodeScan',{nave:'Producto',producto: this.producto, socio:this.socio,entrega:'0'});
                             }
                             if(name==='bt_sponsor'){
-                                this.props.navigation.navigate('BarcodeScan',{nave:'Socio',producto: this.producto, socio:this.socio,entrega:'0'})
+                              //  ToastAndroid.show("boton sponsor "+this.producto+", "+this.sponsor,ToastAndroid.SHORT);
+                                this.props.navigation.navigate('BarcodeScan',{nave:'Socio',producto: this.producto, socio:this.sponsor,entrega:'0'})
                             }
                             if(name === 'bt_getback'){
                                 this.props.navigation.navigate('BarcodeScan',{nave:'Producto',entrega:'1'})

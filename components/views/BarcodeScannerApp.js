@@ -30,10 +30,11 @@ export class BarcodeScannerApp extends Component {
 
         if(this.props.navigation.state.params)
         {
-            if(this.props.navigation.state.params.producto
-                && this.props.navigation.state.params.socio){
+            if(this.props.navigation.state.params.producto!==undefined
+                 && this.props.navigation.state.params.socio !==undefined){
                 prod=this.props.navigation.state.params.producto;
                 spons = this.props.navigation.state.params.socio;
+
             }
             if(this.props.navigation.state.params.entrega){
                 let bck = this.props.navigation.state.params.entrega;
@@ -49,12 +50,13 @@ export class BarcodeScannerApp extends Component {
         let navi = this.props.navigation.state.params.nave;
         if (e.data !== this.state.barcode || e.type !== this.state.type) Vibration.vibrate();
 
-        JSON.parse(e.data, (key, value) => {
+
+       /* JSON.parse(e.data, (key, value) => {
             if (typeof value === 'string') {
                 return value.toUpperCase();
             }
             return value;
-        });
+        }); */
 /*
         if(navi === 'Producto' && !this.back)
         this.producto=this.producto+","+e.data;
@@ -64,14 +66,14 @@ export class BarcodeScannerApp extends Component {
 
 
 
-        this.setState({
+       /* this.setState({
             barcode: e.data,
             text: `${e.data} (${e.type})`,
             type: e.type,
 
 
-        });
-        this.props.navigation.navigate('BuyProduct',{nave:this.props.navigation.state.params.nave,producto:this.producto, socio:this.socio,back:this.back, data: e.data });
+        });*/
+       this.props.navigation.navigate('BuyProduct',{nave:this.props.navigation.state.params.nave,producto:this.producto, socio:this.socio,back:this.back, data: e.data });
     }
 
     render() {
@@ -83,12 +85,15 @@ export class BarcodeScannerApp extends Component {
                     onBarCodeRead={this.barcodeReceived.bind(this)}
                     style={{ flex: 1 }}
                     torchMode={this.state.torchMode}
+
                     cameraType={this.state.cameraType}
                 />
                 <View style={styles.statusBar}>
                     <TouchableHighlight
                         style={styles.submit}
-                        onPress={() => { this.props.navigation.navigate('BuyProduct',{nave:this.props.navigation.state.params.nave,producto:this.producto, socio:this.socio,back:false, data: '{"id":390,"sponsorContract":"ZIPPY90000"}'} ); }}
+                        onPress={() => {
+                            Vibration.vibrate();
+                            this.props.navigation.navigate('BuyProduct',{nave:this.props.navigation.state.params.nave,producto:this.producto, socio:this.socio,back:false, data: '{"id":390,"sponsorContract":"ZIPPY90000"}'} ); }}
                         underlayColor='#fff'>
                     <Text style={styles.statusBarText}>{'Escanear Codigo de '+this.props.navigation.state.params.nave}</Text>
                     </TouchableHighlight>

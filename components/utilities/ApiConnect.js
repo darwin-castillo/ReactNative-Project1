@@ -44,7 +44,7 @@ export const ApiConnect = {
                 };
                    if(resp!=null && !('Authorization' in heads)) {
                        heads.Authorization = "Bearer " + resp;
-                       ToastAndroid.show("pasa por bearer "+heads.Authorization,ToastAndroid.SHORT);
+
                    }
                     if (method === 'post')
                         return NativeModules.RNFetchssl.post(endpoint,

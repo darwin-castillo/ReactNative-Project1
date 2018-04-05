@@ -235,32 +235,6 @@ export class LoginView extends Component {
     //todo: end native module
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             return fetch('https://facebook.github.io/react-native/movies.json')
                 .then((response) => response.json())
                 .then((responseJson) => {
@@ -362,7 +336,7 @@ export class LoginView extends Component {
         this.setState({spinnerMessage: 'Obteniendo Data de Usuario...',});
         ApiConnect.RequestApi('GET', 'current/user', '')
             .then((responseJson) => {
-                this.setState({spinnerMessage: '', spinnerVisible: false});
+           //     this.setState({spinnerMessage: '', spinnerVisible: false});
                 let responseObj = JSON.parse(responseJson);
                 this.setState({spinnerVisible: false});
                 if (!('error' in responseObj)) {
@@ -388,138 +362,58 @@ export class LoginView extends Component {
                         AsyncStorage.setItem('phone', responseObj.phone);
                     }
                 }
-                this.goToMainView();
+              //  this.goToMainView();
+                this.GetDataQR();
+            })
+            .catch(reason => {
+                this.setState({spinnerVisible: false});
+                let code = reason.code;
+                if(code==='401')
+                    this.AlertMesg('ERROR','Usuario y/o Contraseña Invalidos');
+                else if(code==='500')
+                    this.AlertMesg('ERROR','ERROR INTERNO');
+                else if(code==='403')
+                    this.AlertMesg('ERROR','Acceso y/o Acción No Permitida');
+                else
+                    this.AlertMesg('ERROR '+code!==null&&code!==undefined?code:'',
+                        'No existe comunicación con el servidor');
             });
 
 
     }
 
     GetDataQR() {
+
         this.setState({spinnerMessage: 'Obteniendo Información Adicional...',});
-        ApiConnect.RequestApi('GET', 'current/qr', null)
-            .then((responseJson) => {
-                this.setState({spinnerMessage: '', spinnerVisible: true});
-                if (responseJson.ok) {
-                    responseJson.json().then((rsp) => {
-                        AsyncStorage.setItem('contractCode', rsp.contractCode);
-                        AsyncStorage.setItem('image', rsp.image);
-                        AsyncStorage.setItem('email', rsp.email);
-                        AsyncStorage.setItem('userStatusTitle', rsp.userStatusTitle);
-                        AsyncStorage.setItem('contractCode', rsp.contractCode);
-                        AsyncStorage.setItem('name', rsp.name);
-                        AsyncStorage.setItem('phone', rsp.phone);
-                        this.goToMainView();
-                    })
+        ApiConnect.RequestApi('GET', 'current/qr', '')
+            .then((response) => {
 
-                }
-                else {
-                    this.AlertMesg("ERROR", "Error interno: ");
-                }
+                let responseJson = JSON.parse(response);
+                this.setState({spinnerMessage: '', spinnerVisible: false});
 
-            })
+                AsyncStorage.setItem('idQR',responseJson[0].id.toString());
+                this.goToMainView();
+
+            }).catch(reason => {
+            this.setState({spinnerVisible: false});
+            let code = reason.code;
+
+            if(code==='401')
+                this.AlertMesg('ERROR','Usuario y/o Contraseña Invalidos');
+            else if(code==='500')
+                this.AlertMesg('ERROR','ERROR INTERNO');
+            else if(code==='403')
+                this.AlertMesg('ERROR','Acceso y/o Acción No Permitida');
+            else
+                this.AlertMesg('ERROR '+code!==null&&code!==undefined?code:'',
+                    'No existe comunicación con el servidor');
+        })
 
     }
 
-    funcionprueba = (respuesta) => {
-        ToastAndroid.show("respuestaaa: " + respuesta, ToastAndroid.SHORT);
-    };
-
-    AlternativeLogin() {
-        //    if (this.validateInputs()) {
-
-        ToastAndroid.show("Intentando REq", ToastAndroid.SHORT);
-        ApiConnect.RequestApi('', '', '').then((res) => {
-            ToastAndroid.show("Paso " + res, ToastAndroid.SHORT);
-        }).catch(reason => {
-            ToastAndroid.show("No Paso " + JSON.stringify(reason), ToastAndroid.SHORT);
-        });
-        //ApiConnect.RequestApi("POST","login",'{"username":"darwin.c5@gmail.com","password":"123456"}',this.funcionprueba);
 
 
-        /*
-        ApiConnect.PromisePrueba().then((res) => {
-   ToastAndroid.show("Paso "+ res.modelo,ToastAndroid.SHORT);
-}).catch(reason => {
-  ToastAndroid.show("No Paso "+JSON.stringify(reason),ToastAndroid.SHORT);
-})
 
-
-        fetch("https://club.zippyttech.com:8080", {
-
-            method:'GET',
-            headers: {  Accept: 'application/json',
-                       'Content-Type': 'application/json',
-                       'Cache-Control':'no-cache',
-
-                // club Authorization: 'Bearer rgn2iheirhdr38f4kr5a882p3gej5qf8'
-                // vertedero Authorization:'Bearer usk14fppc6qi871pnoikfj3t0al8ggfo'
-                //  Authorization: 'Bearer rgn2iheirhdr38f4kr5a882p3gej5qf8',
-
-            },
-            body:'{"username":"darwin.c5@gmail.com","password":"123456"}',
-
-        }).then((response) => {
-            this.setState({ spinnerVisible:false,});
-            //  ToastAndroid.show("Hola: "+JSON.stringify(response),ToastAndroid.SHORT);
-            this.AlertMesg('Mensaje de api',JSON.stringify(response));
-            return response;
-        }).
-        catch((reason) => {
-            console.log('There has been a problem with your fetch operation: ' + reason.message);
-            // ADD THIS THROW error
-            throw reason;
-        })
-       // xhr.open("GET", "https://club.zippyttech.com:8080");
-
-       // xhr.send();
-       /* pinch.fetch('https://club.zippyttech.com:8080/api/login', {
-            method: 'POST',
-            headers: { Accept: 'application/json',
-                'Content-Type': 'application/json',
-                'Cache-Control':'no-cache' },
-            body: '{"username":"darwin.c5@gmail.com","password":"123456"}',
-            timeoutInterval: 10000, // timeout after 10 seconds
-            sslPinning: {} // omit the `cert` or `certs` key, `sslPinning` can be ommited as well
-        }).then((response) => {
-            this.setState({ spinnerVisible:false,});
-            //  ToastAndroid.show("Hola: "+JSON.stringify(response),ToastAndroid.SHORT);
-            this.AlertMesg('Mensaje de api',JSON.stringify(response));
-            return response;
-        }).
-        catch((reason) => {
-            console.log('There has been a problem with your fetch operation: ' + reason.message);
-            // ADD THIS THROW error
-            throw reason;
-        })
-
-           //https://club.zippyttech.com:8080/api/
-        // http://vertedero.aguaseo.com:8080/api/   https://vertedero.aguaseo.com:8080/api/users
-/*
-            fetch("https://club.zippyttech.com:8080/api/login", {
-                method:'POST',
-                headers: {  Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                    'Cache-Control':'no-cache',
-                   // club Authorization: 'Bearer rgn2iheirhdr38f4kr5a882p3gej5qf8'
-                    // vertedero Authorization:'Bearer usk14fppc6qi871pnoikfj3t0al8ggfo'
-                  //  Authorization: 'Bearer rgn2iheirhdr38f4kr5a882p3gej5qf8',
-
-                    },
-                body:'{"username":"darwin.c5@gmail.com","password":"123456"}',
-
-            }).then((response) => {
-                this.setState({ spinnerVisible:false,});
-              //  ToastAndroid.show("Hola: "+JSON.stringify(response),ToastAndroid.SHORT);
-                this.AlertMesg('Mensaje de api',JSON.stringify(response));
-                return response;
-            }).
-            catch((reason) => {
-                console.log('There has been a problem with your fetch operation: ' + reason.message);
-                // ADD THIS THROW error
-                throw reason;
-            })
-    //    }*/
-    }
 
     Login() {
         if (this.validateInputs()) {
@@ -528,62 +422,28 @@ export class LoginView extends Component {
             ApiConnect.RequestApi('POST', 'login', '{"username":"' + this.state.user + '","password":"' + this.state.password + '"}')
                 .then((responseJson) => {
                     let responseObj = JSON.parse(responseJson);
-                   // this.setState({spinnerVisible: false});
                     if (!('error' in responseObj)) {
-
                         if ('access_token' in responseObj) {
                             AsyncStorage.setItem('access_token', responseObj.access_token);
                             this.GetDataUser();
                         }
                     }
-                    /*    //this.setState({spinnerVisible: false});
-
-                       if(responseJson.ok) {
-                           //let Resps:JSON = responseJson.json();
-                          //let bodyResp=responseJson._bodyInit;
-
-                            //    this.setState({modalVisible: true, mesg:  "Access Token: "+rsp.access_token});
-                                AsyncStorage.setItem('access_token',rsp.access_token);
-                               this.GetDataUser();
-                              //  this.goToMainView();
-
-                         // this.setState({modalVisible: true, mesg:  "Access Token: "+bodyResp.json().access_token+", body: "+bodyResp});
-                         //  this.goToMainView();
-                       }
-                      /* else if(responseJson.status === 401){
-                           this.AlertMesg("ERROR","Usuario y/o Contraseña Incorrecta");
-                           this.setState({spinnerMessage:'',spinnerVisible:false});
-                       }
-                       else{
-                           this.AlertMesg("ERROR","Error interno");
-                       }
-*/
-                    // this.goToMainView();
+                })
+              .catch(reason => {
+                    this.setState({spinnerVisible: false});
+                  let code = reason.code;
+                  if(code==='401')
+                      this.AlertMesg('ERROR','Usuario y/o Contraseña Invalidos');
+                  else if(code==='500')
+                      this.AlertMesg('ERROR','ERROR INTERNO');
+                  else if(code==='403')
+                      this.AlertMesg('ERROR','Acceso y/o Acción No Permitida');
+                  else
+                      this.AlertMesg('ERROR '+code!==null&&code!==undefined?code:'',
+                          'No existe comunicación con el servidor');
 
                 })
-            /*.catch((error, statusCode) => {
-                //this.AlertMesg('ERROR', 'Usuario y/o Contraseña Incorrecta');
-                this.setState({spinnerVisible: false})
-                console.log(error);
-                //console.error(error);
-            })
-*/
 
-            /*
-                    this.props.navigator.push({
-                        ident: "MainView"
-                    });
-                   Alert.alert(
-                        'Alert Title',
-                        'My Alert Msg',
-                        [
-                            {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
-                            {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-                            {text: 'OK', onPress: () => console.log('OK Pressed')},
-                        ],
-                        {cancelable: false}
-                    );
-                   */
         }
 
     }

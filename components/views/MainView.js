@@ -66,7 +66,7 @@ export class MainView extends Component {
     }
 
     handleBackButton() {
-        ToastAndroid.show('Back button is pressed', ToastAndroid.SHORT);
+    //    ToastAndroid.show('Back button is pressed', ToastAndroid.SHORT);
         return true;
     }
 
@@ -85,7 +85,8 @@ export class MainView extends Component {
         name:'',
         phone:'',
         email:'',
-        qr:'{\'id\':\'321\',\'sponsorContract\':\'ZIPPY90000\'}',
+        idQR:'',
+        qr:'{\"id\":\"321\",\"sponsorContract\":\"ZIPPY90000\"}',
 
     };
 
@@ -128,6 +129,14 @@ export class MainView extends Component {
         });
         StorageConnect.searchKey('email').then((resp) => {
             this.setState({email: resp})
+        });
+        StorageConnect.searchKey('idQR').then((resp) => {
+            this.setState({idQR: resp,
+                qr:'{\"id\":\"'+resp+'\",\"sponsorContract\":\"'+this.state.contractCode+'\"}',
+            });
+
+
+
         });
     }
     GoToBuy(page) {

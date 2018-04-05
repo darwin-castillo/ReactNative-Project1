@@ -4,6 +4,7 @@ import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReadableMap;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -12,6 +13,9 @@ import org.json.JSONObject;
  */
 
 public class ThreadingData extends AsyncTask<String,String,String> {
+
+    private static final String E_LAYOUT_ERROR = "E_LAYOUT_ERROR";
+    private static final String STATUS = "status";
     private String method;
     private String endpoint;
     private String body;
@@ -74,31 +78,83 @@ public class ThreadingData extends AsyncTask<String,String,String> {
 
        if(resp!=null){
            try {
-               JSONObject jsob = new JSONObject(resp);
-              if(callback!=null) {
-                  if (!jsob.has("error"))
-                      this.callback.invoke(resp, null);
 
-                  else
-                      this.callback.invoke(null, resp);
+              if(isJSONFormat(resp)) {
+                  JSONObject jsob = new JSONObject(resp);
+
+                  if (callback != null) {
+                      if (!jsob.has("error"))
+                          this.callback.invoke(resp, null);
+
+                      else
+                          this.callback.invoke(null, resp);
+                  } else {
+                      if (!jsob.has("error"))
+                          promise.resolve(resp);
+                      else
+                          promise.reject(jsob.getString(STATUS), resp);
+                  }
+              }
+              else if(isJSONArray(resp)){
+                  if (callback != null) {
+                          this.callback.invoke(resp, null);
+
+                  } else {
+                          promise.resolve(resp);
+                  }
               }
               else{
-                  if (!jsob.has("error"))
-                     promise.resolve(resp);
+                  if(callback!=null)
+                      this.callback.invoke(null,resp);
                   else
-                      promise.reject(new Throwable(resp));
+                      this.promise.reject("0",resp);
               }
 
-           } catch (JSONException e) {
+           } catch (Exception e) {
                e.printStackTrace();
-               resp ="{\"error\":\"format error\"}";
+              // resp ="{\"error\":\"format error\"}";
               if(callback!=null)
                this.callback.invoke(null,resp);
               else
-                  this.promise.reject(e.getCause());
+                  this.promise.reject("0",resp);
            }
 
        }
 
+    }
+
+    /**
+     * Check if a String have json format
+     * @return
+     */
+
+    public static boolean isJSONFormat(String str){
+        try{
+            JSONObject obj = new JSONObject(str);
+            int n=obj.names().length();
+            if(n>=1) return true;
+            else return false;
+        }
+        catch (JSONException js){
+            return false;
+        }
+    }
+
+    /** Check if a String have json format  array
+     *
+     * @param str
+     * @return
+     */
+
+    public boolean isJSONArray(String str){
+        try{
+            JSONArray obj = new JSONArray(str);
+            int n=obj.length();
+            if(n>=1) return true;
+            else return false;
+        }
+        catch (JSONException js){
+            return false;
+        }
     }
 }
