@@ -18,7 +18,6 @@ import {
 import {LoginView} from "./components/views/LoginView";
 import {MainView} from "./components/views/MainView";
 import {BuyProductView} from "./components/views/BuyProductView"
-import {BarcodeScannerApp} from "./components/views/BarcodeScannerApp";
 import {apiUrl, heads} from "./components/utilities/ApiConnect";
 //import {MainView} from './components/views/MainViewComponent'
 //7import Toast, {DURATION} from 'react-native-easy-toast'
@@ -55,12 +54,7 @@ export var RootStack = StackNavigator(
             /*navigationOptions:  {
                 headerLeft: null }*/
         },
-        BarcodeScan: {
-            //  screen: MainView,
-            screen: BarcodeScannerApp,
-            /*navigationOptions:  {
-                headerLeft: null }*/
-        },
+
         initialRouteName: 'Login',
 
 
@@ -128,12 +122,7 @@ export var OptionalStack = StackNavigator(
             /*navigationOptions:  {
                 headerLeft: null }*/
         },
-        BarcodeScan: {
-            //  screen: MainView,
-            screen: BarcodeScannerApp,
-            /*navigationOptions:  {
-                headerLeft: null }*/
-        },
+
         initialRouteName: 'Main',
 
 

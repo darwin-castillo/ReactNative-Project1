@@ -1,31 +1,24 @@
 import React, {Component} from 'react';
 import {
     Alert,
-    ListView,
     View,
     Text,
     TextInput,
     Modal,
     Button,
-    ToastAndroid,
     ImageBackground,
-    Image,
     AsyncStorage,
-    Switch,
     TouchableHighlight,
     NativeModules,
-    StyleSheet
+    StyleSheet, Platform
 } from "react-native";
 
-const RNFetch = NativeModules.RNFetchssl;
 
-import pinch from 'react-native-pinch';
+const RNFetch = NativeModules.RNFetchssl;
 import PopoverTooltip from 'react-native-popover-tooltip';
 import {MainView} from "./LoginView";
-import {RootStack, App} from "../../App"
+import { App} from "../../App"
 import Spinner from 'react-native-loading-spinner-overlay';
-
-//import {ApiConnect, apiUrl, POSTRequest} from "../utilities/ApiConnect";
 import ApiConnect, {apiUrl, Bearer} from "../utilities/ApiConnect";
 
 const colorThemeApp = "#114512";
@@ -54,6 +47,12 @@ xhr.onreadystatechange = function() {
     }
 };
 */
+
+const platform = Platform.select({
+    ios: 'ios',
+    android: 'android',
+});
+
 export class LoginView extends Component {
 
     constructor(props) {
@@ -270,7 +269,7 @@ export class LoginView extends Component {
     validateInputs(): boolean {
         var ms_pass = '';
         var ms_usr = '';
-        if (this.state.password == null || this.state.password == '') {
+        if (this.state.password == null || this.state.password === '') {
             ms_pass = 'Debe ingresar la contraseña para iniciar sesion';
             this.setState({tooltip_msg_pass: ms_pass});
             this.refs['tooltip_pass'].toggle();
@@ -287,7 +286,7 @@ export class LoginView extends Component {
                 this.passwordTextInput.focus();
             return false;
         }
-        else if (this.state.user == null || this.state.user == '') {
+        else if (this.state.user == null || this.state.user === '') {
             ms_usr = 'Debe ingresar el usuario para iniciar sesion';
             this.setState({tooltip_msg_usr: ms_usr});
             this.refs['tooltip_usr'].toggle();
@@ -300,33 +299,6 @@ export class LoginView extends Component {
 
     }
 
-    /*
-        POSTRequest( endpoint, payload ):Promise<Response>{
-
-            return ( fetch(apiUrl+endpoint, {
-                method: 'POST',
-                headers: heads,
-                body:payload,
-                /* body: JSON.stringify({
-                     username: 'darwin.c5@gmail.com',
-                     password: '123456'
-
-                 })
-            }).then((response) => response.json())
-                /*  .then((responseJson) => {
-                      this.setState({modalVisible: true,mesg:JSON.stringify(responseJson)});
-                  })
-                  .catch((error) => {
-                      this.setState({modalVisible: true, mesg: JSON.stringify(error)});
-                      //console.error(error);
-                  }));
-            //  this.refs.toast.show('hello world!');
-
-
-
-        }
-
-    */
 
     goToMainView() {
         this.props.navigation.navigate('Main');
@@ -337,7 +309,16 @@ export class LoginView extends Component {
         ApiConnect.RequestApi('GET', 'current/user', '')
             .then((responseJson) => {
            //     this.setState({spinnerMessage: '', spinnerVisible: false});
-                let responseObj = JSON.parse(responseJson);
+
+                let responseObj = null;
+                if(platform === 'ios'){
+                    responseObj = responseJson;
+                }
+                else if(platform === 'android'){
+                    responseObj =   JSON.parse(responseJson);
+                }
+
+console.log('entro en getDataUser');
                 this.setState({spinnerVisible: false});
                 if (!('error' in responseObj)) {
                     if ('contractCode' in responseObj) {
@@ -388,7 +369,14 @@ export class LoginView extends Component {
         ApiConnect.RequestApi('GET', 'current/qr', '')
             .then((response) => {
 
-                let responseJson = JSON.parse(response);
+                let responseJson = null;
+                if(platform === 'ios'){
+                    responseJson = response;
+                }
+                else if (platform === 'android'){
+                    responseJson = JSON.parse(response);
+                }
+
                 this.setState({spinnerMessage: '', spinnerVisible: false});
 
                 AsyncStorage.setItem('idQR',responseJson[0].id.toString());
@@ -418,18 +406,35 @@ export class LoginView extends Component {
     Login() {
         if (this.validateInputs()) {
 
-            this.setState({spinnerMessage: 'Validando Usuario...', spinnerVisible: true});
+        // this.setState({spinnerMessage: 'Validando Usuario...', spinnerVisible: true});
             ApiConnect.RequestApi('POST', 'login', '{"username":"' + this.state.user + '","password":"' + this.state.password + '"}')
                 .then((responseJson) => {
-                    let responseObj = JSON.parse(responseJson);
-                    if (!('error' in responseObj)) {
-                        if ('access_token' in responseObj) {
-                            AsyncStorage.setItem('access_token', responseObj.access_token);
-                            this.GetDataUser();
-                        }
-                    }
+                  console.log("el response "+responseJson.access_token);
+                   if(platform === 'android') {
+                       let responseObj = JSON.parse(responseJson);
+                       // console.log("por aqui esta response y token "+responseObj);
+                       if (!('error' in responseObj)) {
+                           if ('access_token' in responseObj) {
+                               console.log('Conect to data user')
+                               AsyncStorage.setItem('access_token', responseObj.access_token);
+                               this.GetDataUser();
+                           }
+                       }
+                   }
+                   if(platform === 'ios'){
+                       if (!('error' in responseJson)) {
+                           if ('access_token' in responseJson) {
+                               console.log('Conect to data user')
+                               AsyncStorage.setItem('access_token', responseJson.access_token);
+                               this.GetDataUser();
+                           }
+                       }
+                   }
                 })
               .catch(reason => {
+                  console.log("reason "+reason);
+                  console.log("reason parsed: "+JSON.stringify(reason));
+                  console.log("reason code: "+reason.code);
                     this.setState({spinnerVisible: false});
                   let code = reason.code;
                   if(code==='401')
@@ -486,7 +491,6 @@ const styles = StyleSheet.create({
         marginLeft: 8,
         marginRight: 8,
         marginTop: 4,
-        /* borderColor: '#ffff000',*/
 
     },
 

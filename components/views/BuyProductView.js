@@ -447,14 +447,14 @@ sponsor="";
                             console.log(`selected button: ${name}`);
                             if(name==='bt_product'){
                                 // this._onPressQRCode();
-                               this.props.navigation.navigate('BarcodeScan',{nave:'Producto',producto: this.producto, socio:this.socio,entrega:'0'});
+                           //    this.props.navigation.navigate('BarcodeScan',{nave:'Producto',producto: this.producto, socio:this.socio,entrega:'0'});
                             }
                             if(name==='bt_sponsor'){
                               //  ToastAndroid.show("boton sponsor "+this.producto+", "+this.sponsor,ToastAndroid.SHORT);
-                                this.props.navigation.navigate('BarcodeScan',{nave:'Socio',producto: this.producto, socio:this.sponsor,entrega:'0'})
+                             //   this.props.navigation.navigate('BarcodeScan',{nave:'Socio',producto: this.producto, socio:this.sponsor,entrega:'0'})
                             }
                             if(name === 'bt_getback'){
-                                this.props.navigation.navigate('BarcodeScan',{nave:'Producto',entrega:'1'})
+                               // this.props.navigation.navigate('BarcodeScan',{nave:'Producto',entrega:'1'})
                             }
                         }
                     }

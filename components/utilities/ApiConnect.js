@@ -1,15 +1,26 @@
 import {Component} from 'react'
-import {Alert, AsyncStorage, NativeModules, Promise as reject, Promise as resolve, ToastAndroid} from "react-native";
-import {Utils} from "./Utils";
-import {StorageConnect} from "./StorageConnect";
-
-
-export var apiUrl = "https://club.zippyttech.com:8080/api/";
-const RNFetchssl = NativeModules.RNFetchssl;
+import {
+    AsyncStorage,
+    NativeModules,
+    Platform,
+} from "react-native";
+import {Dialogs} from "./AlertMessage";
+export var apiUrl = "https://club.zippyttech.com:8080/api/"; //URL BASE
 let Response = "";
 export var Bearer = "";
 
+
+
+
+
 export const ApiConnect = {
+
+    headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Cache-Control': 'no-cache',
+        Authorization: Bearer
+    },
 
     getStorageByKey(key) {
         this.searchKey(key).then((resp) => {
@@ -31,58 +42,62 @@ export const ApiConnect = {
 
     RequestApi(method: string, endpoint: string, payload: any): Promise<Response> {
         this.getStorageByKey('access_token');
-        endpoint = apiUrl + endpoint;
+        // endpoint = apiUrl + endpoint;
         method = method.toLowerCase();
-
+        let Url = apiUrl + endpoint;
 
         return (
             this.searchKey('access_token').then((resp) => {
-                let heads = {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                    'Cache-Control': 'no-cache',
-                };
-                   if(resp!=null && !('Authorization' in heads)) {
-                       heads.Authorization = "Bearer " + resp;
+                    let heads = {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                        'Cache-Control': 'no-cache',
+                    };
 
-                   }
-                    if (method === 'post')
-                        return NativeModules.RNFetchssl.post(endpoint,
-                            payload, heads);
-                    else if (method === 'get')
-                        return NativeModules.RNFetchssl.get(endpoint, heads);
-                    else if (method === 'put')
-                        return NativeModules.RNFetchssl.put(endpoint,
-                            payload, heads);
-                    else if (method === 'delete')
-                        return NativeModules.RNFetchssl.delete(endpoint, heads);
+                    console.log('there is access_token ' + resp);
+                    if (resp != null && !('Authorization' in heads))
+                        heads.Authorization = "Bearer " + resp;
+
+                    console.log('el body es ' + payload);
+                    /**
+                     * Fetch IOS
+                     */
+                    if (platform === 1){
+                        return this.FetchingData(method, endpoint, payload)
+                            .then((resolve) => resolve.json())
+                            .then((resolveJson) => {
+                                    console.log(JSON.stringify(resolveJson));
+                                    return resolveJson
+                                }
+                            );
+                    }
+
+                    /**
+                     * Fetch Android
+                     */
+                    else if(platform === 2){
+                        if (method === 'post')
+                            return NativeModules.RNFetchssl.post(Url,
+                                payload, heads);
+                        else if (method === 'get')
+                            return NativeModules.RNFetchssl.get(Url,  heads);
+                        else if (method === 'put')
+                            return NativeModules.RNFetchssl.put(Url,
+                                payload,  heads);
+                        else if (method === 'delete')
+                            return NativeModules.RNFetchssl.delete(Url, heads);
+
+                    }
+
                 }
             )); // end RETURN
     },
 
-    PromisePrueba(): Promise<any> {
-        let isMomHappy = true;
-// Promise
-        let willIGetNewPhone = new Promise(
-            function (resolve, reject) {
-                if (isMomHappy) {
-                    let phone = {
-                        modelo: 'Samsung',
-                        color: 'black'
-                    };
-                    resolve(phone); // fulfilled
-                } else {
-                    var reason = new Error('mom is not happy');
-                    reject(reason); // reject
-                }
-
-            }
-        );
-        return willIGetNewPhone;
-    },
 
     FetchingData(method: string, endpoint: string, payload: any): Promise<Response> {
-        return fetch(apiUrl + endpoint, {
+        let Url = apiUrl + endpoint;
+
+        return fetch(Url, {
             method: method,
             headers: {
                 Accept: 'application/json',
@@ -93,12 +108,17 @@ export const ApiConnect = {
             body: payload,
 
         }).then((response) => {
+
+            console.log('response url ' + (apiUrl + endpoint))
             return response;
         }).catch((reason) => {
             console.log('There has been a problem with your fetch operation: ' + reason.message);
             // ADD THIS THROW error
+            Dialogs.SimpleAlert('ERROR',''+reason.message);
             throw reason;
         })
+
+
     },
 
 }

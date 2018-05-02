@@ -1,13 +1,9 @@
 rootProject.name = 'club'
-include ':react-native-pinch'
-project(':react-native-pinch').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-pinch/android')
-include ':react-native-shimmer'
-project(':react-native-shimmer').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-shimmer/android')
-include ':react-native-barcodescanner', ':app'
-project(':react-native-barcodescanner').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-barcodescanner/android')
-include ':react-native-vector-icons'
-project(':react-native-vector-icons').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-vector-icons/android')
+
+
 include ':react-native-fetchssl'
 project(':react-native-fetchssl').projectDir = new File(rootProject.projectDir, '../react-native-fetchssl/android')
+include ':react-native-vector-icons'
+project(':react-native-vector-icons').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-vector-icons/android')
 
 include ':app'

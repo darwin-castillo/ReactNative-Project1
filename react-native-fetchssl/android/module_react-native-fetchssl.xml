@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_react-native-fetchssl" default="compile.module.react-native-fetchssl">
+  <dirname property="module.react-native-fetchssl.basedir" file="${ant.file.module_react-native-fetchssl}"/>
+  
+  <property name="module.jdk.home.react-native-fetchssl" value="${jdk.home.android_api_23_platform}"/>
+  <property name="module.jdk.bin.react-native-fetchssl" value="${jdk.bin.android_api_23_platform}"/>
+  <property name="module.jdk.classpath.react-native-fetchssl" value="jdk.classpath.android_api_23_platform"/>
+  
+  <property name="compiler.args.react-native-fetchssl" value="-encoding UTF-8 -source 1.7 -target 1.7 ${compiler.args}"/>
+  
+  <property name="react-native-fetchssl.output.dir" value="${module.react-native-fetchssl.basedir}/build/intermediates/classes/debug"/>
+  <property name="react-native-fetchssl.testoutput.dir" value="${module.react-native-fetchssl.basedir}/build/intermediates/classes/test/debug"/>
+  
+  <path id="react-native-fetchssl.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="react-native-fetchssl.module.production.classpath">
+    <path refid="${module.jdk.classpath.react-native-fetchssl}"/>
+  </path>
+  
+  <path id="react-native-fetchssl.runtime.production.module.classpath">
+    <pathelement location="${react-native-fetchssl.output.dir}"/>
+  </path>
+  
+  <path id="react-native-fetchssl.module.classpath">
+    <path refid="${module.jdk.classpath.react-native-fetchssl}"/>
+    <pathelement location="${react-native-fetchssl.output.dir}"/>
+  </path>
+  
+  <path id="react-native-fetchssl.runtime.module.classpath">
+    <pathelement location="${react-native-fetchssl.testoutput.dir}"/>
+    <pathelement location="${react-native-fetchssl.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.react-native-fetchssl">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.react-native-fetchssl">
+    <patternset refid="excluded.from.module.react-native-fetchssl"/>
+  </patternset>
+  
+  <path id="react-native-fetchssl.module.sourcepath">
+    <dirset dir="${module.react-native-fetchssl.basedir}">
+      <include name="build/generated/source/r/debug"/>
+      <include name="build/generated/source/aidl/debug"/>
+      <include name="build/generated/source/buildConfig/debug"/>
+      <include name="build/generated/source/rs/debug"/>
+      <include name="build/generated/res/rs/debug"/>
+      <include name="build/generated/res/resValues/debug"/>
+      <include name="src/main/java"/>
+    </dirset>
+  </path>
+  
+  <path id="react-native-fetchssl.module.test.sourcepath">
+    <dirset dir="${module.react-native-fetchssl.basedir}">
+      <include name="build/generated/source/r/androidTest/debug"/>
+      <include name="build/generated/source/aidl/androidTest/debug"/>
+      <include name="build/generated/source/buildConfig/androidTest/debug"/>
+      <include name="build/generated/source/rs/androidTest/debug"/>
+      <include name="build/generated/res/rs/androidTest/debug"/>
+      <include name="build/generated/res/resValues/androidTest/debug"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.react-native-fetchssl" depends="compile.module.react-native-fetchssl.production,compile.module.react-native-fetchssl.tests" description="Compile module react-native-fetchssl"/>
+  
+  <target name="compile.module.react-native-fetchssl.production" depends="register.custom.compilers" description="Compile module react-native-fetchssl; production classes">
+    <mkdir dir="${react-native-fetchssl.output.dir}"/>
+    <javac2 destdir="${react-native-fetchssl.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.react-native-fetchssl}/javac">
+      <compilerarg line="${compiler.args.react-native-fetchssl}"/>
+      <bootclasspath refid="react-native-fetchssl.module.bootclasspath"/>
+      <classpath refid="react-native-fetchssl.module.production.classpath"/>
+      <src refid="react-native-fetchssl.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.react-native-fetchssl"/>
+    </javac2>
+    
+    <copy todir="${react-native-fetchssl.output.dir}">
+      <fileset dir="${module.react-native-fetchssl.basedir}/build/generated/source/r/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.react-native-fetchssl.basedir}/build/generated/source/aidl/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.react-native-fetchssl.basedir}/build/generated/source/buildConfig/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.react-native-fetchssl.basedir}/build/generated/source/rs/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.react-native-fetchssl.basedir}/build/generated/res/rs/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.react-native-fetchssl.basedir}/build/generated/res/resValues/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.react-native-fetchssl.basedir}/src/main/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.react-native-fetchssl.tests" depends="register.custom.compilers,compile.module.react-native-fetchssl.production" description="compile module react-native-fetchssl; test classes" unless="skip.tests">
+    <mkdir dir="${react-native-fetchssl.testoutput.dir}"/>
+    <javac2 destdir="${react-native-fetchssl.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.react-native-fetchssl}/javac">
+      <compilerarg line="${compiler.args.react-native-fetchssl}"/>
+      <bootclasspath refid="react-native-fetchssl.module.bootclasspath"/>
+      <classpath refid="react-native-fetchssl.module.classpath"/>
+      <src refid="react-native-fetchssl.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.react-native-fetchssl"/>
+    </javac2>
+    
+    <copy todir="${react-native-fetchssl.testoutput.dir}">
+      <fileset dir="${module.react-native-fetchssl.basedir}/build/generated/source/r/androidTest/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.react-native-fetchssl.basedir}/build/generated/source/aidl/androidTest/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.react-native-fetchssl.basedir}/build/generated/source/buildConfig/androidTest/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.react-native-fetchssl.basedir}/build/generated/source/rs/androidTest/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.react-native-fetchssl.basedir}/build/generated/res/rs/androidTest/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.react-native-fetchssl.basedir}/build/generated/res/resValues/androidTest/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="clean.module.react-native-fetchssl" description="cleanup module">
+    <delete dir="${react-native-fetchssl.output.dir}"/>
+    <delete dir="${react-native-fetchssl.testoutput.dir}"/>
+  </target>
+</project>
